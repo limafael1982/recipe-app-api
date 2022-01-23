@@ -29,3 +29,15 @@ class ModelTests(TestCase):
                 email=email,
                 password=password
             )
+
+    def test_new_user_invalid_email_blank(self):
+        """ Tests if email is empty. An error should be thrown. """
+
+        with self.assertRaises(ValidationError):
+            email = ''
+            password = 'Test@123'
+            with self.assertRaises(ValueError):
+                user = get_user_model().objects.create_user(
+                    email=email,
+                    password=password
+                )
