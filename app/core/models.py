@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.core.validators import validate_email
 
 
 class UserManager(BaseUserManager):
@@ -8,6 +9,7 @@ class UserManager(BaseUserManager):
     def create_user(self, email, password, **extra_args):
         """ Creates user """
         email_lower = email.lower()
+        validate_email(email_lower)
         user = self.model(email=self.normalize_email(email_lower), **extra_args)
         user.set_password(password)
         user.save(using=self._db)
